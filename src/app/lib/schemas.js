@@ -19,12 +19,12 @@ const cardSchema = new mongoose.Schema({
   image: { type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   follow_up_words: [{ type: String }]
-});
+}, { collection: 'Cards' });
 
 const categorySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   cards: [{ type: mongoose.Schema.Types.ObjectId, ref: "Card" }]
-});
+}, { collection: 'Categories' });
 
 const cacheSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
