@@ -55,3 +55,33 @@
 #### GET
 - Get all categories: `GET http://localhost:3000/api/categories`
 - Get category by name: `GET http://localhost:3000/api/cards?name=places`
+
+
+## 4. Recommendations API
+
+### Endpoint: `/api/recommendations`
+
+#### POST
+
+- Header - Content-Type: application/json
+- Body:
+```
+{
+  "selectedWords": ["I", "want"]
+}
+```
+
+- Response format:
+```
+{
+    "suggestions": [
+        "Scarf",
+        "Cat",
+        "Cookies",
+        "Make",
+        "Open",
+        "Clothes"
+    ]
+}
+
+```
