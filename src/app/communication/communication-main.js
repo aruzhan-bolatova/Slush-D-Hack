@@ -4,18 +4,29 @@ import React from 'react';
 import Image from "next/image";
 import Card from "../components/VocabCard"; // Adjust the path based on your structure
 import HorizontalCard from "../components/HorizontalCard";
+import CircleCard from "../components/CircleCard";
 
 
 const cardDataVertical = [
-    { imageSrc: "/want.gif", title: "I want", color: "#f9b4ab" },
-    { imageSrc: "/like.gif", title: "I like", color: "#c5b4f9" },
-    { imageSrc: "/i-think.gif", title: "I think", color: "#f9de8b" },
-    { imageSrc: "/feel.gif", title: "I feel", color: "#b4e3f9" },
+    { imageSrc: "/want.gif", title: "I want", color: "#f9b4ab", type: "vertical" },
+    { imageSrc: "/like.gif", title: "I like", color: "#c5b4f9", type: "vertical" },
+    { imageSrc: "/i-think.gif", title: "I think", color: "#f9de8b", type: "vertical" },
+    { imageSrc: "/feel.gif", title: "I feel", color: "#b4e3f9", type: "vertical" },
 ];
 
 const cardDataHorizontal = [
-    { imageSrc: "/let's.gif", title: "Let's", color: "#b4e3f9" },
-    { imageSrc: "/that's.gif", title: "That's", color: "#b4e3f9" }
+    { imageSrc: "/let's.gif", title: "Let's", color: "#b4e3f9", type: "horizontal" },
+    { imageSrc: "/that's.gif", title: "That's", color: "#b4e3f9", type: "horizontal" }
+];
+
+const cardDataCircle = [
+    { imageSrc: "https://drive.google.com/uc?id=1Ce_ekwamcQQAaUVrIryh9J_f_-a-eORo", title: "Food", color: "#b4e3f9", type: "circle" },
+    { imageSrc: "https://drive.google.com/uc?id=1bBo-xbl5FY_WOwDypgxl9GlEDFThcYa7", title: "Games", color: "#b4e3f9", type: "circle" },
+    { imageSrc: "https://drive.google.com/uc?id=1oGKeDlKb8DocDuzy3Z_tAJ45cUjFWjlv", title: "Places", color: "#b4e3f9", type: "circle" },
+    { imageSrc: "/activities.png", title: "Activities", color: "#b4e3f9", type: "circle" },
+    { imageSrc: "/actions.png", title: "Actions", color: "#b4e3f9", type: "circle" },
+    { imageSrc: "/clothes.png", title: "Clothes", color: "#b4e3f9", type: "circle" },
+    { imageSrc: "/animals.png", title: "Animals", color: "#b4e3f9", type: "circle" }
 ];
 
 const CommunicationMain = () => {
@@ -23,47 +34,87 @@ const CommunicationMain = () => {
     const [currentCards, setCurrentCards] = useState([...cardDataVertical, ...cardDataHorizontal]);
     const [selectedWords, setSelectedWords] = useState([]);
 
-    const handleCardClick = async (word) => {
-        // Update sentence
-        setSentence((prev) => (prev === "..." ? word : `${prev} ${word}`));
-        const updatedSelectedWords = [...selectedWords, word];
-        setSelectedWords(updatedSelectedWords);
+    const handleCardClick = async (word, type) => {
+        if (type === "circle") {
+            // Fetch new category cards based on the circle card selected
+            try {
+                console.log(word.toLowerCase())
+                word = word.toLowerCase();
+                const response = await fetch(`/api/categories?name=${word}`);
 
-        try {
-            // POST to /api/recommendations
-            const recommendationsResponse = await fetch("/api/recommendations", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ selectedWords: updatedSelectedWords }),
-            });
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+                const categoryData = await response.json();
+                const cardIds = categoryData.cards;
+                console.log(cardIds);
 
-            if (!recommendationsResponse.ok) {
-                throw new Error(`Error: ${recommendationsResponse.statusText}`);
+                // Fetch card details using IDs
+                const fetchedCards = await Promise.all(
+                    cardIds.map(async (id) => {
+                        console.log(id)
+                        const cardResponse = await fetch(`/api/cards?id=${id}`);
+                        if (!cardResponse.ok) {
+                            throw new Error(`Error: ${cardResponse.statusText}`);
+                        }
+                        const cardDataCategory = await cardResponse.json();
+                        console.log(cardDataCategory)
+                        return {
+                            imageSrc: `${cardDataCategory.image}`,
+                            title: cardDataCategory.word,
+                            color: "#f9de8b",
+                            type: "vertical"
+                        };
+                    })
+                );
+
+                // Update the state while keeping circle cards always visible
+                setCurrentCards(fetchedCards);
+            } catch (error) {
+                console.error("Error fetching category cards:", error);
             }
+        } else {
+            // Update sentence
+            setSentence((prev) => (prev === "..." ? word : `${prev} ${word}`));
+            const updatedSelectedWords = [...selectedWords, word];
+            setSelectedWords(updatedSelectedWords);
 
-            console.log(recommendationsResponse);
-            const recommendationsData = await recommendationsResponse.json();
-            const { suggestions } = recommendationsData;
+            try {
+                // POST to /api/recommendations
+                const recommendationsResponse = await fetch("/api/recommendations", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ selectedWords: updatedSelectedWords }),
+                });
 
-            // Fetch cards for each suggested word
-            const newCards = await Promise.all(
-                suggestions.map(async (suggestedWord) => {
-                    const cardResponse = await fetch(`/api/cards?word=${suggestedWord}`);
-                    const cardData = await cardResponse.json();
-                    return {
-                        imageSrc: `/images/${cardData.image}`, // Adjust image path
-                        title: cardData.word,
-                        color: "#f9de8b", // Default color, can be customized
-                    };
-                })
-            );
+                if (!recommendationsResponse.ok) {
+                    throw new Error(`Error: ${recommendationsResponse.statusText}`);
+                }
 
-            // Update current cards with new recommendations
-            setCurrentCards(newCards);
-        } catch (error) {
-            console.error("Error fetching recommendations or cards:", error);
+                const recommendationsData = await recommendationsResponse.json();
+                const { suggestions } = recommendationsData;
+
+                // Fetch cards for each suggested word
+                const newCards = await Promise.all(
+                    suggestions.map(async (suggestedWord) => {
+                        const cardResponse = await fetch(`/api/cards?word=${suggestedWord}`);
+                        const cardDataVertical = await cardResponse.json();
+                        return {
+                            imageSrc: `${cardDataVertical.image}`,
+                            title: cardDataVertical.word,
+                            color: "#f9de8b",
+                            type: "vertical"
+                        };
+                    })
+                );
+
+                // Update current cards with new recommendations
+                setCurrentCards(newCards);
+            } catch (error) {
+                console.error("Error fetching recommendations or cards:", error);
+            }
         }
     };
 
@@ -81,17 +132,47 @@ const CommunicationMain = () => {
                 <p className="mt-3">{sentence}</p>
             </div>
 
-            {/* Card Grid */}
-            <div className="flex flex-wrap gap-6 p-10">
-                {currentCards.map((item, index) => (
-                    <Card
+            {/* Circle Cards (Always Visible) */}
+            <div className="flex flex-wrap gap-6 p-5">
+                {cardDataCircle.map((item, index) => (
+                    <CircleCard
                         key={index}
                         imageSrc={item.imageSrc}
                         title={item.title}
                         color={item.color}
-                        onClick={handleCardClick}
+                        onClick={() => handleCardClick(item.title, "circle")}
                     />
                 ))}
+            </div>
+
+            {/* Vertical Cards */}
+            <div className="flex flex-wrap gap-6 p-5">
+                {currentCards
+                    .filter((item) => item.type === "vertical")
+                    .map((item, index) => (
+                        <Card
+                            key={index}
+                            imageSrc={item.imageSrc}
+                            title={item.title}
+                            color={item.color}
+                            onClick={() => handleCardClick(item.title, "vertical")}
+                        />
+                    ))}
+            </div>
+
+            {/* Horizontal Cards */}
+            <div className="flex flex-wrap gap-6 p-5">
+                {currentCards
+                    .filter((item) => item.type === "horizontal")
+                    .map((item, index) => (
+                        <HorizontalCard
+                            key={index}
+                            imageSrc={item.imageSrc}
+                            title={item.title}
+                            color={item.color}
+                            onClick={() => handleCardClick(item.title, "horizontal")}
+                        />
+                    ))}
             </div>
         </div>
     );

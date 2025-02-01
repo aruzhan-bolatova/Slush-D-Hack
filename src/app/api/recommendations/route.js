@@ -23,13 +23,18 @@ export async function POST(req) {
     const cards = await Card.find().populate('category');
     const cardsByCategory = {};
     
+    // Create a Set of all available words for faster lookup
+    const availableWords = new Set();
+    
     for (const card of cards) {
       const categoryName = card.category ? card.category.name : 'uncategorized';
       if (!cardsByCategory[categoryName]) {
         cardsByCategory[categoryName] = [];
       }
       cardsByCategory[categoryName].push(card.word);
+      availableWords.add(card.word);
     }
+  
 
     // 4. Format past interactions
     const pastInteractions = user.past_interactions.map(interaction => 
@@ -99,6 +104,8 @@ export async function POST(req) {
       if (!Array.isArray(suggestions) || suggestions.length === 0) {
         throw new Error('No valid suggestions found');
       }
+
+      suggestions = suggestions.filter(word => availableWords.has(word));
 
     } catch (parseError) {
       console.error('Error parsing suggestions:', parseError);
