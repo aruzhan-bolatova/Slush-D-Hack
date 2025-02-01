@@ -19,19 +19,19 @@ const cardSchema = new mongoose.Schema({
   image: { type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   follow_up_words: [{ type: String }]
-});
+}, { collection: 'Cards' });
 
 const categorySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   cards: [{ type: mongoose.Schema.Types.ObjectId, ref: "Card" }]
-});
+}, { collection: 'Categories' });
 
 const cacheSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   word: { type: String, required: true },
   recommendations: [{ type: String }],
   createdAt: { type: Date, default: Date.now, expires: 3600 }
-});
+}, { collection: 'Cache' });
 
 // Check if models exist before creating them
 const User = mongoose.models.User || mongoose.model("User", userSchema);
