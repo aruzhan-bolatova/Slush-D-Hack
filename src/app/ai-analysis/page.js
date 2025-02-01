@@ -1,6 +1,9 @@
 import SideBar from '../components/SideBar';
 import AnalysisMain from './ai-analysis-main';
 
+
+
+
 export default function Home() {
   return (
     <div className="flex">

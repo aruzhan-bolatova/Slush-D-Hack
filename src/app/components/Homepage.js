@@ -39,7 +39,7 @@ const Dashboard = () => {
           {/* Progress Section */}
           <div className="md:col-span-2">
             <div className="bg-white p-4 rounded-lg shadow">
-              <h2 className="text-lg font-semibold mb-4">Overall progress</h2>
+              <h2 className="text-lg text-black font-semibold mb-4">Overall progress</h2>
               <div className="mb-4">
                 <div className="text-sm text-gray-600 mb-2">
                   {progressData.completed}/{progressData.total} lesson completed
