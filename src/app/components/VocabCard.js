@@ -1,10 +1,13 @@
+"use client"; // Add this if you're using Next.js App Router (for Next.js 13+)
+import { useState } from "react";
 import Image from "next/image";
 
-const Card = ({ imageSrc, title, color }) => {
+const Card = ({ imageSrc, title, color, onClick }) => {
   return (
     <div 
-    className="rounded-2xl shadow-lg p-4 flex flex-col items-center w-48" 
-    style={{ backgroundColor: color }} 
+      className="rounded-2xl shadow-lg p-4 flex flex-col items-center w-48 cursor-pointer"
+      style={{ backgroundColor: color }}
+      onClick={() => onClick(title)}  
     >
       <Image 
         src={imageSrc} 
