@@ -31,7 +31,7 @@ const cacheSchema = new mongoose.Schema({
   word: { type: String, required: true },
   recommendations: [{ type: String }],
   createdAt: { type: Date, default: Date.now, expires: 3600 }
-});
+}, { collection: 'Cache' });
 
 // Check if models exist before creating them
 const User = mongoose.models.User || mongoose.model("User", userSchema);
