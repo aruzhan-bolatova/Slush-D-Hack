@@ -22,7 +22,7 @@ Currently, the setup requires running back-end and front-end separately.
 
 3. **Create .env file and write the credentials:**
 
-    MONGODB_URI=your_credentials\\
+    MONGODB_URI=your_credentials
     GROQ_CLOUD_API_KEY=your_credentials
     ELEVENLABS_API_KEY=your_credentials
 
