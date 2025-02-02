@@ -1,18 +1,42 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Setup Instructions
 
-First, run the development server:
+Warning:
+Currently, the setup requires running back-end and front-end separately.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the Repository**:
+
+   ```
+   git clone https://github.com/aruzhan-bolatova/Slush-D-Hack.git
+   cd Slush-D-Hack
+   ```
+
+2. **Install Dependencies**:
+
+   ```
+   npm install
+   ```
+
+   Run the above to install all necessary packages.
+
+3. **Create .env file and write the credentials:**
+
+    MONGODB_URI=your_credentials
+    GROQ_CLOUD_API_KEY=your_credentials
+    ELEVENLABS_API_KEY=your_credentials
+
+4. **Run it:
+
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
+    # or
+    bun dev
+    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
