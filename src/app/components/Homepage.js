@@ -17,9 +17,9 @@ const Dashboard = () => {
   };
 
   const learningCards = [
-    { title: 'Human Emotions', image: '/api/placeholder/120/80', color: 'bg-orange-200' },
-    { title: 'Hare and tortoise story', image: '/api/placeholder/120/80', color: 'bg-purple-200' },
-    { title: 'Human Feelings', image: '/api/placeholder/120/80', color: 'bg-yellow-100' }
+    { image: '/mp1.png', color: 'bg-orange-200' },
+    { image: '/mp2.png' },
+    { image: '/mp3.png', color: 'bg-yellow-100' }
   ];
 
   return (
@@ -54,7 +54,7 @@ const Dashboard = () => {
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {progressData.skills.map((skill) => (
-                  <div key={skill.name} className="text-center">
+                  <div key={skill.name} className="text-center text-black">
                     <div className="relative inline-block">
                       <Circle 
                         size={64}
@@ -97,7 +97,6 @@ const Dashboard = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             <DailySummary />
-            <VideoSection />
           </div>
         </div>
       </div>
@@ -107,48 +106,27 @@ const Dashboard = () => {
 
 const DailySummary = () => {
   const summaryItems = [
-    { label: 'Favourite character', value: 'Piu the Dog', icon: '🐕' },
-    { label: 'Preferred learning method', value: 'Through stories', icon: '📚' },
-    { label: 'Friends made this week', value: 'Rahul and Tanya', icon: '👥' },
-    { label: 'Stories this week', value: 'Thirsty crow', icon: '🐦' },
-    { label: 'Lessons completed', value: 'Counting 1-5', icon: '✌️' },
-    { label: 'Activity completed', value: 'Colouring mouse', icon: '🎨' }
+    { label: 'Brushing Teeth', value: 'Done', icon: '🪥' },
+    { label: 'Make Your Bed', value: 'Done', icon: '🛏️' },
+    { label: 'Eat', value: 'Done', icon: '🍽️' },
+    { label: 'Paint', value: 'In Progress', icon: '🎨' },
+    { label: 'Ride a Bike', value: 'In Progress', icon: '🚲' },
+    { label: 'Go To Sleep', value: 'In Progress', icon: '😴' }
   ];
 
   return (
     <div className="bg-white p-4 rounded-lg shadow">
-      <h2 className="text-lg font-semibold mb-4">Daily Planner</h2>
+      <h2 className="text-lg text-black font-semibold mb-4">Daily Planner</h2>
       <div className="space-y-3">
         {summaryItems.map((item) => (
-          <div key={item.label} className="flex items-center space-x-2">
+          <div key={item.label} className="flex text-gray-400 items-center space-x-2">
             <span className="text-xl">{item.icon}</span>
             <div>
-              <div className="text-sm text-gray-500">{item.label}</div>
-              <div className="font-medium">{item.value}</div>
+              <div className="text-bs text-gray-500">{item.label}</div>
+              <div className="text-sm">{item.value}</div>
             </div>
           </div>
         ))}
-      </div>
-    </div>
-  );
-};
-
-const VideoSection = () => {
-  return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Videos</h2>
-        <button className="text-blue-500 text-sm">View all</button>
-      </div>
-      <div className="space-y-3">
-        <div className="bg-orange-100 rounded-lg p-2">
-          <img
-            src="/api/placeholder/240/135"
-            alt="July compilation"
-            className="w-full rounded mb-2"
-          />
-          <div className="font-medium">July compilation</div>
-        </div>
       </div>
     </div>
   );

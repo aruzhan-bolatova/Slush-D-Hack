@@ -15,7 +15,7 @@ const ActivityCard = ({ imageSrc, title, color, onDrop }) => {
     return (
         <div
           ref={drag}
-          className={`rounded-2xl shadow-lg p-4 flex flex-col items-center w-48 cursor-pointer transition-all ${
+          className={`rounded-2xl shadow-lg p-4 flex flex-col items-center w-32 cursor-pointer transition-transform hover:scale-105 ${
             isDragging ? "opacity-50" : "opacity-100"
           }`}
           style={{ backgroundColor: color }}

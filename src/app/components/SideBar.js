@@ -18,8 +18,8 @@ const SideBar = () => {
   ];
 
   return (
-    <div className="w-40 bg-white h-screen fixed left-0 top-0 py-4 flex flex-col justify-center">
-      <div className="flex flex-col space-y-6 justify-center flex-grow">
+    <div className="w-40 bg-white h-screen fixed left-0 top-0 flex flex-col justify-center">
+      <div className="flex flex-col space-y-3 justify-center">
         <Image
           src="/logo.png"
           alt="logo"
@@ -38,7 +38,7 @@ const SideBar = () => {
               alt={item.label}
               width={40}
               height={40}
-              className="object-contain"
+              className="object-contain mt-5"
             />
             <span className="text-s mt-1 text-gray-600">{item.label}</span>
           </button>

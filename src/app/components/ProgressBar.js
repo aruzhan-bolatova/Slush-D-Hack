@@ -22,7 +22,7 @@ const ProgressBar = ({ activities, setActivities }) => {
     return (
         <div
             ref={drop}
-            className={`w-full bg-gray-200 h-64 flex items-center justify-start transition-all ${isOver ? "bg-blue-100" : ""
+            className={`w-full bg-gray-200 h-48 flex items-center justify-start transition-all ${isOver ? "bg-blue-100" : ""
                 }`}
         >
             {activities.map((activity, index) => (

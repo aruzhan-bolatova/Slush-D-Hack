@@ -5,18 +5,18 @@ import Image from "next/image";
 const CircleCard = ({ imageSrc, title, color, onClick }) => {
   return (
     <div 
-      className="rounded-full shadow-lg p-4 flex flex-col items-center h-40 w-40 cursor-pointer"
+      className="rounded-full shadow-lg p-4 flex flex-col items-center h-32 w-32 cursor-pointer"
       style={{ backgroundColor: color }}
       onClick={() => onClick(title)}  
     >
       <Image 
         src={imageSrc} 
         alt={title} 
-        width={100} 
-        height={100} 
+        width={80} 
+        height={80} 
         className="rounded-lg object-cover"
       />
-      <p className="mt-3 text-lg font-semibold text-gray-700">{title}</p>
+      <p className="mt-1 text-lg font-semibold text-gray-700">{title}</p>
     </div>
   );
 };
