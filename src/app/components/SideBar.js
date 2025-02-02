@@ -1,7 +1,7 @@
 "use client"; // Add this if you're using Next.js App Router (for Next.js 13+)
 
 import { useRouter } from "next/navigation"; // Use Next.js built-in router
-import Image from 'next/image';
+import Image from "next/image";
 
 const SideBar = () => {
   const router = useRouter();
@@ -9,7 +9,11 @@ const SideBar = () => {
   const navItems = [
     { imgSrc: "/overview.png", label: "Overview", path: "/" },
     { imgSrc: "/routine.png", label: "Routine", path: "/routine" },
-    { imgSrc: "/communication.png", label: "Communication", path: "/communication" },
+    {
+      imgSrc: "/communication.png",
+      label: "Communication",
+      path: "/communication",
+    },
     { imgSrc: "/analysis.png", label: "AI Analysis", path: "/ai-analysis" },
   ];
 

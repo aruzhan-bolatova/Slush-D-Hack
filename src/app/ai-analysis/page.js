@@ -1,8 +1,6 @@
-import SideBar from '../components/SideBar';
-import AnalysisMain from './ai-analysis-main';
-
-
-
+import SideBar from "../components/SideBar";
+import AnalysisMain from "./ai-analysis-main";
+import FloatingChatbot from "../components/FloatingChatbot";
 
 export default function Home() {
   return (
@@ -10,6 +8,8 @@ export default function Home() {
       <SideBar />
       <main className="ml-20 w-full">
         <AnalysisMain />
+        {/* Your existing content */}
+        <FloatingChatbot />
       </main>
     </div>
   );
